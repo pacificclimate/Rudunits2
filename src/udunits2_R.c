@@ -10,8 +10,8 @@
 #include <udunits2.h>
 #include <stdio.h>
 
-ut_system *sys = NULL;
-ut_encoding enc = 0;
+static ut_system *sys = NULL;
+static ut_encoding enc = 0;
 
 /* From the enum comments in udunits2.h */
 const char * ut_status_strings[] = {
@@ -41,6 +41,25 @@ void R_ut_init(void) {
   }
   if (enc == 0) {
     enc = UT_UTF8;
+  }
+  return;
+}
+
+/* Take an encoding string and set the global var enc */
+void R_ut_set_encoding(const char * const *enc_string) {
+  size_t length = strlen(*enc_string);
+  if (strncmp(*enc_string, "utf8", length) == 0) {
+    enc = UT_UTF8;
+  }
+  else if (strncmp(*enc_string, "ascii", length) == 0) {
+    enc = UT_ASCII;
+  }
+  else if (strncmp(*enc_string, "iso-8859-1", length) == 0 ||
+	   strncmp(*enc_string, "latin1", length) == 0) {
+    enc = UT_LATIN1;
+  }
+  else {
+    error("Valid encoding string parameters are ('utf8'|'ascii'|'iso-8859-1','latin1')");
   }
   return;
 }
