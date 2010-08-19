@@ -1,0 +1,36 @@
+AC_INIT(src/udunits2_R.c)
+
+AC_ARG_WITH([udunits2],
+    AS_HELP_STRING([--with-udunits2=PATH_TO_UDUNITS_HOME],
+		[The base location of udunits2 libraries.
+	  	This path will be appended with (lib|include)]),
+          	[udunits2_path=$withval])
+
+if test [ -n "$udunits2_path" ] ; then
+   LIBS="-L${udunits2_path}/lib ${LIBS}"
+   PKG_LIBS="-L${udunits2_path}/lib ${PKG_LIBS}"
+   PKG_CFLAGS="-I${udunits2_path}/include"
+fi
+
+AC_CHECK_LIB(udunits2,ut_read_xml,UDUNITS2="true",UDUNITS2="false",${LIBS})
+
+if test  ${UDUNITS2} = "false"  ; then
+    echo "-----Error: libununits2.a not found-----"
+    echo "     If the udunits2 library is installed in a non-standard location,"
+    echo "     use --configure-args='--with-udunits2=/usr/local/lib' for example,"
+    echo "     replacing /usr/local/* with appropriate values for your installation."
+    echo "     If udunits2 is not installed, please install it."
+    echo "     It is required for this package."
+    HAVE_LIBUDUNITS2=FALSE
+    exit 1
+else
+    PKG_LIBS="-ludunits2 ${PKG_LIBS}"
+    HAVE_LIBUDUNITS2=TRUE
+fi
+
+AC_SUBST([HAVE_LIBUDUNITS2])
+AC_SUBST([PKG_LIBS])
+AC_SUBST([PKG_CFLAGS])
+
+AC_OUTPUT(R/load.R)
+AC_OUTPUT(src/Makevars)
