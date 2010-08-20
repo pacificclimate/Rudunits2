@@ -10,8 +10,9 @@
 #include <udunits2.h>
 #include <stdio.h>
 
-static ut_system *sys = NULL;
-static ut_encoding enc = 0;
+static int module_initialized = 0;
+ut_system *sys = NULL;
+static ut_encoding enc;
 
 /* From the enum comments in udunits2.h */
 const char * ut_status_strings[] = {
@@ -33,21 +34,26 @@ const char * ut_status_strings[] = {
   "Error parsing unit specification"
 };
 
-void handle_error(const char *);
+void handle_error(const char *calling_function) {
+  ut_status stat;
+  stat = ut_get_status();
+  error("Error in function %s: %s", calling_function, ut_status_strings[stat]);
+}
 
 void R_ut_init(void) {
-  if (sys == NULL) {
+  if (! module_initialized) {
     sys = ut_read_xml(NULL);
-  }
-  if (enc == 0) {
     enc = UT_UTF8;
+    module_initialized = 1;
   }
   return;
 }
 
 /* Take an encoding string and set the global var enc */
 void R_ut_set_encoding(const char * const *enc_string) {
+
   size_t length = strlen(*enc_string);
+
   if (strncmp(*enc_string, "utf8", length) == 0) {
     enc = UT_UTF8;
   }
@@ -81,7 +87,6 @@ void R_ut_is_parseable(char * const *units_string, int *parseable) {
   return;
 }
 
-/* Assumes that ustring1 and ustring2 are parseable! */
 void R_ut_are_convertible(char * const *ustring1, char * const *ustring2, int *convertible) {
   ut_unit *u1, *u2;
 
@@ -90,6 +95,11 @@ void R_ut_are_convertible(char * const *ustring1, char * const *ustring2, int *c
   ut_trim(*ustring1, enc); ut_trim(*ustring2, enc);
   u1 = ut_parse(sys, *ustring1, enc);
   u2 = ut_parse(sys, *ustring2, enc);
+
+  if (!(u1 && u2)) {
+    handle_error("R_ut_are_convertible");
+  }
+
   if (ut_are_convertible(u1, u2) == 0) {
     *convertible = 0;
   }
@@ -98,12 +108,6 @@ void R_ut_are_convertible(char * const *ustring1, char * const *ustring2, int *c
   }
   ut_free(u1); ut_free(u2);
   return;
-}
-
-void handle_error(const char *calling_function) {
-  ut_status stat;
-  stat = ut_get_status();
-  error("Error in function %s: %s", calling_function, ut_status_strings[stat]);
 }
 
 void R_ut_convert(const double *x, int *count, char * const *units_from, char * const *units_to, double *rv) {
@@ -139,13 +143,17 @@ void R_ut_convert(const double *x, int *count, char * const *units_from, char * 
   return;
 }
 
-/* Assumes that ustring is parseable */
 void R_ut_get_name(char * const *ustring, char **rstring) {
   ut_unit *u;
   char *trimmed;
   char *s;
   trimmed = ut_trim(*ustring, enc);
   u = ut_parse(sys, trimmed, enc);
+
+  if (!u) {
+    handle_error("R_ut_get_name");
+  }
+
   s = (char *) ut_get_name(u, enc); // FIXME: ut_get_name seems to allocate the string... does it need to be free-ed?
 
   if (s == NULL) return;
@@ -154,13 +162,17 @@ void R_ut_get_name(char * const *ustring, char **rstring) {
   return;
 }
 
-/* Assumes that ustring is parseable */
 void R_ut_get_symbol(char * const *ustring, char **rstring) {
   ut_unit *u;
   char *trimmed;
   char *s;
   trimmed = ut_trim(*ustring, enc);
   u = ut_parse(sys, trimmed, enc);
+
+  if (!u) {
+    handle_error("R_ut_get_symbol");
+  }
+
   s = (char *) ut_get_symbol(u, enc); // FIXME: ut_get_symbol seems to allocate the string... does it need to be free-ed?
 
   if (s == NULL) return;
@@ -193,8 +205,6 @@ int main(void) {
 
   length = sizeof(miles) / sizeof(double);
 
-  //R_ut_parse(units_from, (char **) &name_buf, (char **) &sym_buf);
-  //printf("After parsing %s, we got name=%s and symbol=%s\n", units_from, name_buf, sym_buf);
   R_ut_convert(miles, &length, (char * const *) &units_from, (char * const *) &units_to, (double *) km);
   printf("km[0] %f, km[5] %f km[9] %f\n", km[0], km[5], km[9]);
 
