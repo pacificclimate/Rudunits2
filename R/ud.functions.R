@@ -23,7 +23,7 @@ function(x, u1, u2) {
 
   len <- length(i)
   c.rv <- .C('R_ut_convert',
-           as.double(x[i]),
+           as.double(x)[i],
            as.integer(len),
            as.character(u1),
            as.character(u2),

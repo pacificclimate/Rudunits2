@@ -42,7 +42,9 @@ void handle_error(const char *calling_function) {
 
 void R_ut_init(void) {
   if (! module_initialized) {
+    ut_set_error_message_handler(ut_ignore);
     sys = ut_read_xml(NULL);
+    ut_set_error_message_handler(ut_write_to_stderr);
     enc = UT_UTF8;
     module_initialized = 1;
   }
