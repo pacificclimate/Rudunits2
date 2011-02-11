@@ -1,4 +1,4 @@
-AC_INIT(Rudunits2, 0.4, hiebert@uvic.ca)
+AC_INIT(Rudunits2, 0.5, hiebert@uvic.ca)
 AC_PROG_CC
 AC_LANG(C)
 
@@ -21,6 +21,11 @@ if test [ -n "$udunits2_include_path" ] ; then
    PKG_CFLAGS="-I${udunits2_include_path} ${PKG_CLFAGS}"
 fi
 
+AC_CHECK_LIB(expat,XML_ParserCreate,[],[],${PKG_LIBS})
+if test "${ac_cv_lib_expat_XML_ParserCreate}" == yes; then
+   PKG_LIBS="-lexpat ${PKG_LIBS}"
+fi
+
 UD_ERROR=""
 AC_CHECK_HEADER(udunits2.h, [], UD_ERROR="udunits2.h not found")
 AC_CHECK_LIB(udunits2,ut_read_xml,[],UD_ERROR="libununits2.a not found",${PKG_LIBS})
@@ -37,11 +42,6 @@ if test "${UD_ERROR}" != ""  ; then
 else
     PKG_LIBS="-ludunits2 ${PKG_LIBS}"
     HAVE_LIBUDUNITS2=TRUE
-fi
-
-AC_CHECK_LIB(expat,XML_ParserCreate,[],[],${PKG_LIBS})
-if test "${ac_cv_lib_expat_XML_ParserCreate}" == yes; then
-   PKG_LIBS="-lexpat ${PKG_LIBS}"
 fi
 
 AC_SUBST([HAVE_LIBUDUNITS2])
