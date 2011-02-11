@@ -115,7 +115,6 @@ void R_ut_are_convertible(char * const *ustring1, char * const *ustring2, int *c
 void R_ut_convert(const double *x, int *count, char * const *units_from, char * const *units_to, double *rv) {
   ut_unit *from, *to;
   cv_converter *conv;
-  int i;
   R_ut_init();
 
   ut_trim(*units_from, enc); ut_trim(*units_to, enc);
@@ -191,7 +190,7 @@ void test(void) {
 
 int main(void) {
   R_ut_init();
-  char name_buf[256], sym_buf[256];
+  char name_buf[256];
   char *s;
   int length;
   const char *units_from = "miles";
