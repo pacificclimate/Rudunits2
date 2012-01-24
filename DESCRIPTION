@@ -9,3 +9,4 @@ Description: This package provides simple bindings to version 2 of Unidata's udu
 SystemRequirements: udunits-2
 License: GPL-2
 LazyLoad: yes
+Depends: R (>= 2.10.0)

@@ -1,0 +1,2 @@
+exportPattern("^ud.*")
+useDynLib(udunits2, R_ut_are_convertible, R_ut_convert, R_ut_get_name, R_ut_get_symbol, R_ut_is_parseable, R_ut_set_encoding)

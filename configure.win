@@ -1,0 +1,2 @@
+mkdir -p ${R_PACKAGE_DIR}/share
+cp -r ${UDUNITS2_HOME}/share/udunits ${R_PACKAGE_DIR}/share

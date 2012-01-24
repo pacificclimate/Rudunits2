@@ -6,8 +6,7 @@ function(u1, u2) {
   rv <- .C('R_ut_are_convertible',
            as.character(u1),
            as.character(u2),
-           convertible=logical(1),
-           PACKAGE='udunits2')
+           convertible=logical(1))
   return(rv$convertible)
 }
 
@@ -27,8 +26,7 @@ function(x, u1, u2) {
            as.integer(len),
            as.character(u1),
            as.character(u2),
-           converted=double(len),
-           PACKAGE='udunits2'
+           converted=double(len)
            )
   rv[i] <- c.rv$converted
   ## If it's a matrix/vector or anything else, convert it back to it's original type
@@ -41,8 +39,7 @@ function(unit.string) {
   stopifnot(ud.is.parseable(unit.string))
   rv <- .C('R_ut_get_name',
            as.character(unit.string),
-           ud.name=character(length=1),
-           PACKAGE='udunits2')
+           ud.name=character(length=1))
   return(rv$ud.name)
 }
 
@@ -51,8 +48,7 @@ function(unit.string) {
   stopifnot(ud.is.parseable(unit.string))
   rv <- .C('R_ut_get_symbol',
            as.character(unit.string),
-           ud.symbol=character(length=1),
-           PACKAGE='udunits2')
+           ud.symbol=character(length=1))
   return(rv$ud.symbol)
 }
 
@@ -60,15 +56,13 @@ ud.is.parseable <-
 function(unit.string) {
   rv <- .C('R_ut_is_parseable',
            as.character(unit.string),
-           parseable=logical(1),
-           PACKAGE='udunits2')
+           parseable=logical(1))
   return(rv$parseable)
 }
 
 ud.set.encoding <-
 function(enc.string) {
   .C('R_ut_set_encoding',
-     as.character(enc.string),
-     PACKAGE='udunits2')
+     as.character(enc.string))
   return()
 }
