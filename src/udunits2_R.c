@@ -1,5 +1,5 @@
 /*
-  James Hiebert <hiebert@uvic.ca
+  James Hiebert <hiebert@uvic.ca>
   Pacific Climate Impacts Consortium
   August, 16, 2010
 
@@ -180,67 +180,4 @@ void R_ut_get_symbol(char * const *ustring, char **rstring) {
   else *rstring = s;
 
   return;
-}
-
-void test(void) {
-  printf("Hello world!\n");
-  printf("Yes I am plugged in\n");
-  return;
-}
-
-int main(void) {
-  R_ut_init();
-  char name_buf[256];
-  char *s;
-  int length;
-  const char *units_from = "miles";
-  const char *units_to = "km";
-  const double miles[10] = {1., 2., 3., 4., 5., 6., 7., 8., 9., 10.};
-  const double km[10];
-  ut_unit *u1, *u2, *u3;
-
-  int i, j, opt;
-  int opts[2] = {UT_NAMES, UT_DEFINITION};
-  ut_unit *unit_list[3];
-  ut_unit *u;
-
-  length = sizeof(miles) / sizeof(double);
-
-  R_ut_convert(miles, &length, (char * const *) &units_from, (char * const *) &units_to, (double *) km);
-  printf("km[0] %f, km[5] %f km[9] %f\n", km[0], km[5], km[9]);
-
-  u1 = ut_parse(sys, units_from, enc);
-  u2 = ut_parse(sys, units_to, enc);
-  u3 = ut_parse(sys, "hour", enc);
-  unit_list[0] = u1; unit_list[1] = u2; unit_list[2] = u3;
-
-  for (i=0; i<3; i++) {
-    for (j=0; j<2; j++) {
-      u = unit_list[i];
-      opt = opts[j];
-
-      length = ut_format(u, name_buf, sizeof(name_buf) / sizeof(char), opt);
-      if (length != -1) {
-	printf("(ut_format ->) %s\n", name_buf);
-      }
-      else {
-	fprintf(stderr, "Error in ut_format: %s\n", ut_status_strings[ut_get_status()]);
-      }
-    }
-    s = (char *) ut_get_name(u, enc);
-    if (! s) {
-      fprintf(stderr, "Error in ut_get_name: %s\n", ut_status_strings[ut_get_status()]);
-    }
-    else {
-      printf("ut_get_name -> %s\n", s);
-    }
-    s = (char *) ut_get_symbol(u, enc);
-    if (! s) {
-      fprintf(stderr, "Error in ut_get_name: %s\n", ut_status_strings[ut_get_status()]);
-    }
-    else {
-      printf("ut_get_symbol -> %s\n", s);
-    }
-  }
-  return 0;
 }

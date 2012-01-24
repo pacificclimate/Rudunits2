@@ -8,7 +8,7 @@
 \tabular{ll}{
 Package: \tab udunits2\cr
 Type: \tab Package\cr
-Version: \tab 0.5\cr
+Version: \tab 0.6\cr
 Date: \tab 2011-02-11\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr

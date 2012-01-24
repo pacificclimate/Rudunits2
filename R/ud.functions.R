@@ -72,9 +72,3 @@ function(enc.string) {
      PACKAGE='udunits2')
   return()
 }
-
-ud.test <-
-function() {
-  .C('test', PACKAGE='udunits2')
-  return("test")
-}

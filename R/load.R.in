@@ -1,6 +1,8 @@
-.First.lib<-function(libname,pkgname){
+.onLoad<-function(libname,pkgname){
   if (@HAVE_LIBUDUNITS2@)
     library.dynam("udunits2",pkgname,libname)
   else
     stop("You don't have udunits installed.")
+  if(.Platform$OS.type == "windows")
+    Sys.setenv(UDUNITS2_XML_PATH = file.path(libname, pkgname, "share/udunits/udunits2.xml"))
 }
