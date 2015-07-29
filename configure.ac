@@ -1,5 +1,9 @@
 AC_INIT(Rudunits2, 0.7, hiebert@uvic.ca)
-AC_PROG_CC
+
+CC=`"${R_HOME}/bin/R" CMD config CC`
+CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`
+CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`
+
 AC_LANG(C)
 
 AC_ARG_WITH([udunits2-include],
@@ -7,10 +11,10 @@ AC_ARG_WITH([udunits2-include],
 		[location of the udunits2 header files]),
 		[udunits2_include_path=$withval])
 if test [ -n "$udunits2_include_path" ] ; then
-   UD_CFLAGS="-I${udunits2_include_path}"
+   UD_CPPFLAGS="-I${udunits2_include_path}"
 else
    if test [ -n "${UDUNITS2_INCLUDE}" ] ; then
-      UD_CFLAGS="-I{UDUNITS2_INCLUDE}"
+      UD_CPPFLAGS="-I{UDUNITS2_INCLUDE}"
    fi
 fi
 
@@ -33,7 +37,8 @@ fi
 
 UD_ERROR=""
 AC_CHECK_HEADER(udunits2.h, [], UD_ERROR="udunits2.h not found")
-AC_CHECK_LIB(udunits2,ut_read_xml,[],UD_ERROR="libudunits2.a not found",${LIBS})
+AC_CHECK_LIB(udunits2, ut_read_xml, [],
+             UD_ERROR="libudunits2.a not found", ${LIBS})
 
 if test "${UD_ERROR}" != ""  ; then
     echo "-----Error: ${UD_ERROR}-----"
@@ -46,14 +51,11 @@ if test "${UD_ERROR}" != ""  ; then
     echo "     If udunits2 is not installed, please install it."
     echo "     It is required for this package."
     exit 1
-else
-    LIBS="-ludunits2 ${LIBS}"
-    HAVE_LIBUDUNITS2=TRUE
 fi
 
-AC_SUBST([HAVE_LIBUDUNITS2])
-AC_SUBST([LIBS])
-AC_SUBST([UD_CFLAGS])
+LIBS="-ludunits2 ${LIBS}"
 
-AC_OUTPUT(R/load.R)
+AC_SUBST([LIBS])
+AC_SUBST([UD_CPPFLAGS])
+
 AC_OUTPUT(src/Makevars)
