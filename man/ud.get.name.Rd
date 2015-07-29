@@ -28,8 +28,8 @@ ud.get.name(unit.string)
   Unidata's udunits reference:
   \url{http://www.unidata.ucar.edu/software/udunits/}
   API guide for ut_get_name:
-  \url{http://www.unidata.ucar.edu/software/udunits/udunits-2/udunits2lib.html#index-ut_005fget_005fname-66}
-  API guide for ut_get_symbol: \url{http://www.unidata.ucar.edu/software/udunits/udunits-2/udunits2lib.html#index-ut_005fget_005fsymbol-67}
+  \url{http://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#index-ut_005fget_005fname-66}
+  API guide for ut_get_symbol: \url{http://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#index-ut_005fget_005fsymbol-67}
 }
 \author{James Hiebert \email{hiebert@uvic.ca}}
 

@@ -31,7 +31,7 @@ ud.convert(x, u1, u2)
   Unidata's udunits reference:
   \url{http://www.unidata.ucar.edu/software/udunits/}
   API guide for cv_convert_doubles:
-  \url{http://www.unidata.ucar.edu/software/udunits/udunits-2/udunits2lib.html#index-cv_005fconvert_005fdoubles-39}
+  \url{http://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#index-cv_005fconvert_005fdoubles-39}
 }
 \author{
   James Hiebert \email{hiebert@uvic.ca}
