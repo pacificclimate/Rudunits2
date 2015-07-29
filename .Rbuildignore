@@ -3,3 +3,4 @@ man-roxygen
 comparison
 README.rst
 CONTRIBUTING.rst
+autom4te.cache/
