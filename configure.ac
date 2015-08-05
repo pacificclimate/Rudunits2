@@ -1,4 +1,4 @@
-AC_INIT(Rudunits2, 0.7, hiebert@uvic.ca)
+AC_INIT(Rudunits2, 0.8, hiebert@uvic.ca)
 
 CC=`"${R_HOME}/bin/R" CMD config CC`
 CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`
