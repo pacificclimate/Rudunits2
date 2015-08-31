@@ -32,8 +32,10 @@ fi
 
 AC_CHECK_LIB(expat,XML_ParserCreate,[],[],${LIBS})
 if test "${ac_cv_lib_expat_XML_ParserCreate}" == yes; then
-   LIBS="-lexpat ${LIBS}"
+   LIBS="${LIBS} -lexpat "
 fi
+
+CPPFLAGS="${UD_CPPFLAGS} ${CPPFLAGS}"
 
 UD_ERROR=""
 AC_CHECK_HEADER(udunits2.h, [], UD_ERROR="udunits2.h not found")
@@ -53,7 +55,7 @@ if test "${UD_ERROR}" != ""  ; then
     exit 1
 fi
 
-LIBS="-ludunits2 ${LIBS}"
+LIBS="${LIBS} -ludunits2"
 
 AC_SUBST([LIBS])
 AC_SUBST([UD_CPPFLAGS])
