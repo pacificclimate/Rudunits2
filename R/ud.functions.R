@@ -1,6 +1,4 @@
 .onLoad <- function(pkg, lib) {
-	#if (!(udunits2:::ud.is.parseable("m")))
-	library.dynam("udunits2", "udunits2", .libPaths())
 	if (!(ud.is.parseable("m"))) {
 		p0 = system.file("share/udunits2.xml", package="udunits2")
 		cat(paste0("udunits2 system database not loaded; reading shipped version from\n", p0, "\n"))
