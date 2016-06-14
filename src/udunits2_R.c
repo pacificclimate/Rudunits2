@@ -8,11 +8,13 @@
 
 #include <R.h>
 #include <udunits2.h>
-#include <stdio.h>
+/* EJP: outcommented */
+/* #include <stdio.h> */
 
 static int module_initialized = 0;
 ut_system *sys = NULL;
 static ut_encoding enc;
+static char xml_path[256] = "";
 
 /* From the enum comments in udunits2.h */
 const char * ut_status_strings[] = {
@@ -40,10 +42,20 @@ void handle_error(const char *calling_function) {
   error("Error in function %s: %s", calling_function, ut_status_strings[stat]);
 }
 
+void R_ut_reinit(const char **path) { /* try to reboot the init with a new path to the database */
+	if (strlen(*path) > 255)
+  		error("path too long");
+	else {
+		module_initialized = 0;
+		strncpy(xml_path, *path, 255);
+		/* Rprintf("path reset to %s\n", (char *) xml_path); */
+	}
+}
+
 void R_ut_init(void) {
   if (! module_initialized) {
     ut_set_error_message_handler(ut_ignore);
-    sys = ut_read_xml(NULL);
+    sys = ut_read_xml(xml_path[0] == '\0' ? NULL : xml_path);
     ut_set_error_message_handler(ut_write_to_stderr);
     enc = UT_UTF8;
     module_initialized = 1;
