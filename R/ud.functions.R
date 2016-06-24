@@ -1,4 +1,4 @@
-.onAttach <- function(libname, pkgname) {
+.onLoad <- function(libname, pkgname) {
 	if (!(ud.is.parseable("m"))) {
 		p0 = system.file("share/udunits2.xml", package="udunits2")
 		.C(R_ut_reinit, as.character(p0))
