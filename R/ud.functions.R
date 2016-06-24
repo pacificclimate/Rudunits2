@@ -1,9 +1,11 @@
 .onAttach <- function(libname, pkgname) {
 	if (!(ud.is.parseable("m"))) {
 		p0 = system.file("share/udunits2.xml", package="udunits2")
-		packageStartupMessage("udunits2 system database not loaded; reading shipped version from\n", p0, "\n")
 		.C(R_ut_reinit, as.character(p0))
-		stopifnot(ud.is.parseable("m"))
+		if (ud.is.parseable("m"))
+			packageStartupMessage("udunits2 system database not loaded; reading shipped version from ", p0)
+		else
+			packageStartupMessage("failed to load system file ", p0, " : udunits2 will not work properly")
 	}
 }
 
