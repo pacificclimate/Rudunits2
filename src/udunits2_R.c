@@ -8,13 +8,12 @@
 
 #include <R.h>
 #include <udunits2.h>
-/* EJP: outcommented */
-/* #include <stdio.h> */
+#include <stdio.h> /* FILENAME_MAX */
 
 static int module_initialized = 0;
 ut_system *sys = NULL;
 static ut_encoding enc;
-static char xml_path[256] = "";
+static char xml_path[FILENAME_MAX] = "";
 
 /* From the enum comments in udunits2.h */
 const char * ut_status_strings[] = {
@@ -43,11 +42,11 @@ void handle_error(const char *calling_function) {
 }
 
 void R_ut_reinit(const char **path) { /* try to reboot the init with a new path to the database */
-	if (strlen(*path) > 255)
-  		error("path too long");
+	if (strlen(*path) > FILENAME_MAX - 1)
+  		error("path length too large for this operating system");
 	else {
 		module_initialized = 0;
-		strncpy(xml_path, *path, 255);
+		strncpy(xml_path, *path, FILENAME_MAX - 1);
 		/* Rprintf("path reset to %s\n", (char *) xml_path); */
 	}
 }
