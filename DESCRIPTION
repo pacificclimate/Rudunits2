@@ -6,6 +6,7 @@ Date: 2015-08-31
 Author: James Hiebert <hiebert@uvic.ca>
 Maintainer: James Hiebert <hiebert@uvic.ca>
 Description: Provides simple bindings to version 2 of Unidata's udunits library.
+URL: https://github.com/pacificclimate/Rudunits2
 SystemRequirements: udunits-2
 License: GPL-2
 LazyLoad: yes
