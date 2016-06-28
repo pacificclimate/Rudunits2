@@ -1,12 +1,12 @@
 .onLoad <- function(libname, pkgname) {
-	if (!(ud.is.parseable("m"))) {
-		p0 = system.file("share/udunits2.xml", package="udunits2")
-		.C(R_ut_reinit, as.character(p0))
-		if (ud.is.parseable("m"))
-			packageStartupMessage("udunits2 system database not loaded; reading shipped version from ", p0)
-		else
-			packageStartupMessage("failed to load system file ", p0, " : udunits2 will not work properly")
-	}
+  if (!(ud.is.parseable("m"))) {
+    p0 = system.file("share/udunits2.xml", package="udunits2")
+    .C(R_ut_reinit, as.character(p0))
+    if (ud.is.parseable("m"))
+      packageStartupMessage("udunits2 system database not loaded; reading shipped version from ", p0)
+    else
+      packageStartupMessage("failed to load system file ", p0, " : udunits2 will not work properly")
+  }
 }
 
 ud.are.convertible <-
