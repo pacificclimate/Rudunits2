@@ -1,0 +1,7 @@
+language: r
+sudo: true
+cache: packages
+apt_packages:
+  - libudunits2-dev
+before_script:
+  - autoconf
