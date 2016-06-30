@@ -1,10 +1,13 @@
 .onLoad <- function(libname, pkgname) {
-	if (!(ud.is.parseable("m"))) {
+	if (! ud.is.parseable("m")) {
 		p0 = system.file("share/udunits2.xml", package="udunits2")
 		.C(R_ut_reinit, as.character(p0))
-		if (ud.is.parseable("m"))
-			packageStartupMessage("udunits2 system database not loaded; reading shipped version from ", p0)
-		else
+		if (ud.is.parseable("m")) { # we're fine, but
+			if (Sys.getenv("UDUNITS2_XML_PATH") != "") # if path was set, db was not loaded: warn
+				packageStartupMessage("udunits2 system database from ",
+					Sys.getenv("UDUNITS2_XML_PATH"),
+					" not loaded\nreading shipped version from ", p0)
+		} else # we're not fine:
 			packageStartupMessage("failed to load system file ", p0, " : udunits2 will not work properly")
 	}
 }

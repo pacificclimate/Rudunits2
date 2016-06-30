@@ -1,4 +1,4 @@
-Package: udunits
+Package: udunits2
 Type: Package
 Title: Udunits-2 Bindings for R
 Version: 0.9
