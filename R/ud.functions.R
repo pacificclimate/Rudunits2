@@ -1,4 +1,4 @@
-.onLoad <- function(libname, pkgname) {
+.onAttach <- function(libname, pkgname) {
   ## By default, configure udunits with path set (presumably) by the
   ## user through the UDUNITS2_XML_PATH environment variable
   .C('R_ut_init')
