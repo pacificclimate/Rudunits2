@@ -1,15 +1,19 @@
 .onLoad <- function(libname, pkgname) {
-	if (! ud.is.parseable("m")) {
-		p0 = system.file("share/udunits2.xml", package="udunits2")
-		.C(R_ut_reinit, as.character(p0))
-		if (ud.is.parseable("m")) { # we're fine, but
-			if (Sys.getenv("UDUNITS2_XML_PATH") != "") # if path was set, db was not loaded: warn
-				packageStartupMessage("udunits2 system database from ",
-					Sys.getenv("UDUNITS2_XML_PATH"),
-					" not loaded\nreading shipped version from ", p0)
-		} else # we're not fine:
-			packageStartupMessage("failed to load system file ", p0, " : udunits2 will not work properly")
-	}
+  ## By default, configure udunits with path set (presumably) by the
+  ## user through the UDUNITS2_XML_PATH environment variable
+  .C('R_ut_init')
+  if (!ud.have.unit.system()) {
+    ## Failing that, override it with the in-package XML file
+    packageStartupMessage("Failed to load udunits2 system database: reading shipped version from ", p0)
+    p0 <- system.file("share/udunits2.xml", package="udunits2")
+    Sys.setenv('UDUNITS2_XML_PATH', p0)
+    .C('R_ut_init')
+    ## If *that* fails, give the user some instructions for how to remedy
+    ## the problem
+    if (!ud.have.unit.system()) {
+      packageStartupMessage("Failed: udunits2 will not work properly. Please set the UDUNITS2_XML_PATH environment variable *before* attempting to load the package")
+    }
+  }
 }
 
 ud.are.convertible <-
@@ -79,4 +83,11 @@ function(enc.string) {
   .C('R_ut_set_encoding',
      as.character(enc.string))
   return()
+}
+
+ud.have.unit.system <-
+function() {
+  rv <- .C('R_ut_has_system',
+           exists=logical(1))
+  return(rv$exists)
 }
