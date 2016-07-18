@@ -41,16 +41,18 @@ void handle_error(const char *calling_function) {
 }
 
 void R_ut_init(void) {
+  ut_status stat;
+
+  ut_set_error_message_handler(ut_write_to_stderr);
   if (sys != NULL) {
     ut_free_system(sys);
   }
-  ut_set_error_message_handler(ut_ignore);
   sys = ut_read_xml(NULL);
   if (sys == NULL) {
-    handle_error("R_ut_init");
+    stat = ut_get_status();
+    ut_handle_error_message("Warning in R_ut_init: %s", ut_status_strings[stat]);
     return;
   }
-  ut_set_error_message_handler(ut_write_to_stderr);
   enc = UT_UTF8;
   return;
 }
