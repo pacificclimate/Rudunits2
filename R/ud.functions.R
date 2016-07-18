@@ -4,9 +4,9 @@
   .C('R_ut_init')
   if (!ud.have.unit.system()) {
     ## Failing that, override it with the in-package XML file
-    packageStartupMessage("Failed to load udunits2 system database: reading shipped version from ", p0)
     p0 <- system.file("share/udunits2.xml", package="udunits2")
-    Sys.setenv('UDUNITS2_XML_PATH', p0)
+    packageStartupMessage("Failed to load udunits2 system database: reading shipped version from ", p0)
+    Sys.setenv(UDUNITS2_XML_PATH=p0)
     .C('R_ut_init')
     ## If *that* fails, give the user some instructions for how to remedy
     ## the problem
