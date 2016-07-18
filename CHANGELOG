@@ -1,3 +1,8 @@
+0.9: Updates to make loading more robust on binary installs
+  - Switches LIBS flags in configure script so path is set before requiring the libs
+  - Updates XML files to come from udunits v2.2.20
+  - Modifies the process of loading a units system (tries to load from package data if the UDUNITS2_XML_PATH is unset or wrong)
+
 0.8: Moved runtime files to inst/share per Kurt Hornik's recommendation
 
 0.7: Updates to build to fix CRAN notes and Windows build issues

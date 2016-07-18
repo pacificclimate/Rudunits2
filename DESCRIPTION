@@ -2,6 +2,7 @@ Package: udunits2
 Type: Package
 Title: Udunits-2 Bindings for R
 Version: 0.9
+Date: 2016-07-18
 Author: James Hiebert <hiebert@uvic.ca>
 Maintainer: James Hiebert <hiebert@uvic.ca>
 Description: Provides simple bindings to Unidata's udunits library.
