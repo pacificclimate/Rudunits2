@@ -5,3 +5,4 @@ README.rst
 CONTRIBUTING.rst
 autom4te.cache/
 Dockerfile
+.travis.yml

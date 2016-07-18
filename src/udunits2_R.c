@@ -10,7 +10,6 @@
 #include <udunits2.h>
 #include <stdio.h> /* FILENAME_MAX */
 
-static int module_initialized = 0;
 ut_system *sys = NULL;
 static ut_encoding enc;
 static char xml_path[FILENAME_MAX] = "";
@@ -41,23 +40,31 @@ void handle_error(const char *calling_function) {
   error("Error in function %s: %s", calling_function, ut_status_strings[stat]);
 }
 
-void R_ut_reinit(const char **path) { /* try to reboot the init with a new path to the database */
-	if (strlen(*path) > FILENAME_MAX - 1)
-  		error("path length too large for this operating system");
-	else {
-		module_initialized = 0;
-		strncpy(xml_path, *path, FILENAME_MAX - 1);
-		/* Rprintf("path reset to %s\n", (char *) xml_path); */
-	}
+void R_ut_init(void) {
+  ut_status stat;
+
+  ut_set_error_message_handler(ut_write_to_stderr);
+  if (sys != NULL) {
+    ut_free_system(sys);
+  }
+  ut_set_error_message_handler(ut_ignore);
+  sys = ut_read_xml(NULL);
+  ut_set_error_message_handler(ut_write_to_stderr);
+  if (sys == NULL) {
+    stat = ut_get_status();
+    ut_handle_error_message("Warning in R_ut_init: %s", ut_status_strings[stat]);
+    return;
+  }
+  enc = UT_UTF8;
+  return;
 }
 
-void R_ut_init(void) {
-  if (! module_initialized) {
-    ut_set_error_message_handler(ut_ignore);
-    sys = ut_read_xml(xml_path[0] == '\0' ? NULL : xml_path);
-    ut_set_error_message_handler(ut_write_to_stderr);
-    enc = UT_UTF8;
-    module_initialized = 1;
+void R_ut_has_system(int *exists) {
+  if (sys != NULL) {
+    *exists = 1;
+  }
+  else {
+    *exists = 0;
   }
   return;
 }
@@ -86,7 +93,9 @@ void R_ut_set_encoding(const char * const *enc_string) {
 void R_ut_is_parseable(char * const *units_string, int *parseable) {
   ut_unit *result;
 
-  R_ut_init();
+  if (sys == NULL) {
+    R_ut_init();
+  }
 
   ut_trim(*units_string, enc);
   result = ut_parse(sys, *units_string, enc);
@@ -103,7 +112,9 @@ void R_ut_is_parseable(char * const *units_string, int *parseable) {
 void R_ut_are_convertible(char * const *ustring1, char * const *ustring2, int *convertible) {
   ut_unit *u1, *u2;
 
-  R_ut_init();
+  if (sys == NULL) {
+    R_ut_init();
+  }
 
   ut_trim(*ustring1, enc); ut_trim(*ustring2, enc);
   u1 = ut_parse(sys, *ustring1, enc);
@@ -126,7 +137,10 @@ void R_ut_are_convertible(char * const *ustring1, char * const *ustring2, int *c
 void R_ut_convert(const double *x, int *count, char * const *units_from, char * const *units_to, double *rv) {
   ut_unit *from, *to;
   cv_converter *conv;
-  R_ut_init();
+
+  if (sys == NULL) {
+    R_ut_init();
+  }
 
   ut_trim(*units_from, enc); ut_trim(*units_to, enc);
 
