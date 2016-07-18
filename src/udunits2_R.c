@@ -47,7 +47,9 @@ void R_ut_init(void) {
   if (sys != NULL) {
     ut_free_system(sys);
   }
+  ut_set_error_message_handler(ut_ignore);
   sys = ut_read_xml(NULL);
+  ut_set_error_message_handler(ut_write_to_stderr);
   if (sys == NULL) {
     stat = ut_get_status();
     ut_handle_error_message("Warning in R_ut_init: %s", ut_status_strings[stat]);
