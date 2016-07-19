@@ -1,13 +1,13 @@
 .onLoad <- function(libname, pkgname) {
   ## By default, configure udunits with path set (presumably) by the
   ## user through the UDUNITS2_XML_PATH environment variable
-  .C('R_ut_init')
+  .C('R_ut_init', as.integer(0))
   if (!ud.have.unit.system()) {
     ## Failing that, override it with the in-package XML file
     p0 <- system.file("share/udunits2.xml", package="udunits2")
-    packageStartupMessage("Failed to load udunits2 system database: reading shipped version from ", p0)
+    packageStartupMessage("udunits2 system database: ", p0)
     Sys.setenv(UDUNITS2_XML_PATH=p0)
-    .C('R_ut_init')
+    .C('R_ut_init', as.integer(1))
     ## If *that* fails, give the user some instructions for how to remedy
     ## the problem
     if (!ud.have.unit.system()) {
