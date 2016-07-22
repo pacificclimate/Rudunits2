@@ -12,7 +12,6 @@
 
 ut_system *sys = NULL;
 static ut_encoding enc;
-static char xml_path[FILENAME_MAX] = "";
 
 /* From the enum comments in udunits2.h */
 const char * ut_status_strings[] = {
