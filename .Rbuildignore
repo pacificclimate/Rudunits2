@@ -6,3 +6,4 @@ CONTRIBUTING.rst
 autom4te.cache/
 Dockerfile
 .travis.yml
+^windows
