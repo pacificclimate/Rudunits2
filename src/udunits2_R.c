@@ -39,7 +39,7 @@ void handle_error(const char *calling_function) {
   error("Error in function %s: %s", calling_function, ut_status_strings[stat]);
 }
 
-void R_ut_init(int *print_warning_on_failure) {
+void R_ut_init(const int *print_warning_on_failure) {
   ut_status stat;
 
   ut_set_error_message_handler((ut_error_message_handler) Rvprintf);

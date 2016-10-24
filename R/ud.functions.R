@@ -5,15 +5,24 @@
   if (!ud.have.unit.system()) {
     ## Failing that, override it with the in-package XML file
     p0 <- system.file("share/udunits2.xml", package="udunits2")
-    packageStartupMessage("udunits2 system database: ", p0)
     Sys.setenv(UDUNITS2_XML_PATH=p0)
     .C('R_ut_init', as.integer(1))
     ## If *that* fails, give the user some instructions for how to remedy
     ## the problem
     if (!ud.have.unit.system()) {
-      packageStartupMessage("Failed: udunits2 will not work properly. Please set the UDUNITS2_XML_PATH environment variable *before* attempting to load the package")
+      packageStartupMessage(
+	  "Failed to read udunitssystem database: udunits2 will not work properly.\nPlease set the UDUNITS2_XML_PATH environment variable before attempting to load the package")
     }
   }
+}
+
+.onAttach <- function(libname, pkgname) {
+	msg <- "udunits system database read"
+    p0 <- Sys.getenv("UDUNITS2_XML_PATH")
+	if (p0 != "") {
+		msg <- paste(msg, "from", p0)
+    } 
+	packageStartupMessage(msg)
 }
 
 ud.are.convertible <-
