@@ -1,3 +1,10 @@
+0.12: Addresses further install issues for Windows
+  - On Windows, builds agains the rwinlib mingw-w64 binary archive if udunits
+    system lib are not found (thanks to Jeroen Ooms!)
+  - Suppresses incorrect warnings at package load time with respect to the
+    udunits2 units database. Reverts back to using package .onLoad()
+    (thanks to Edzer Pebesma!)
+
 0.11: Addresses minor install issues
   - Includes Makevars.win in the repo
   - Removes unused variable from C source
