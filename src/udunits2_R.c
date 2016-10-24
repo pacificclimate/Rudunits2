@@ -39,19 +39,20 @@ void handle_error(const char *calling_function) {
   error("Error in function %s: %s", calling_function, ut_status_strings[stat]);
 }
 
-void R_ut_init(void) {
+void R_ut_init(const int *print_warning_on_failure) {
   ut_status stat;
 
-  ut_set_error_message_handler(ut_write_to_stderr);
+  ut_set_error_message_handler((ut_error_message_handler) Rvprintf);
   if (sys != NULL) {
     ut_free_system(sys);
   }
   ut_set_error_message_handler(ut_ignore);
   sys = ut_read_xml(NULL);
-  ut_set_error_message_handler(ut_write_to_stderr);
+  ut_set_error_message_handler((ut_error_message_handler) Rvprintf);
   if (sys == NULL) {
     stat = ut_get_status();
-    ut_handle_error_message("Warning in R_ut_init: %s", ut_status_strings[stat]);
+    if (*print_warning_on_failure)
+		ut_handle_error_message("Warning in R_ut_init: %s\n", ut_status_strings[stat]);
     return;
   }
   enc = UT_UTF8;
@@ -91,9 +92,10 @@ void R_ut_set_encoding(const char * const *enc_string) {
 
 void R_ut_is_parseable(char * const *units_string, int *parseable) {
   ut_unit *result;
+  int one = 1;
 
   if (sys == NULL) {
-    R_ut_init();
+    R_ut_init(&one);
   }
 
   ut_trim(*units_string, enc);
@@ -110,9 +112,10 @@ void R_ut_is_parseable(char * const *units_string, int *parseable) {
 
 void R_ut_are_convertible(char * const *ustring1, char * const *ustring2, int *convertible) {
   ut_unit *u1, *u2;
+  int one = 1;
 
   if (sys == NULL) {
-    R_ut_init();
+    R_ut_init(&one);
   }
 
   ut_trim(*ustring1, enc); ut_trim(*ustring2, enc);
@@ -136,9 +139,10 @@ void R_ut_are_convertible(char * const *ustring1, char * const *ustring2, int *c
 void R_ut_convert(const double *x, int *count, char * const *units_from, char * const *units_to, double *rv) {
   ut_unit *from, *to;
   cv_converter *conv;
+  int one = 1;
 
   if (sys == NULL) {
-    R_ut_init();
+    R_ut_init(&one);
   }
 
   ut_trim(*units_from, enc); ut_trim(*units_to, enc);
