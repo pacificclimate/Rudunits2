@@ -10,7 +10,7 @@
     ## If *that* fails, give the user some instructions for how to remedy
     ## the problem
     if (!ud.have.unit.system()) {
-      packageStartupMessage(
+      warning(
 	  "Failed to read udunitssystem database: udunits2 will not work properly.\nPlease set the UDUNITS2_XML_PATH environment variable before attempting to load the package")
     }
   }
