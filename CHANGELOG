@@ -1,3 +1,5 @@
+0.13: Replaces packageStartupMessage with a warning (when unable to load XML files at load time)
+
 0.12: Addresses further install issues for Windows
   - On Windows, builds agains the rwinlib mingw-w64 binary archive if udunits
     system lib are not found (thanks to Jeroen Ooms!)

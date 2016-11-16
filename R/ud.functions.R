@@ -11,7 +11,7 @@
     ## the problem
     if (!ud.have.unit.system()) {
       warning(
-	  "Failed to read udunitssystem database: udunits2 will not work properly.\nPlease set the UDUNITS2_XML_PATH environment variable before attempting to load the package")
+	  "Failed to read udunits system database: udunits2 will not work properly.\nPlease set the UDUNITS2_XML_PATH environment variable before attempting to load the package")
     }
   }
 }
