@@ -106,6 +106,8 @@ function(enc.string, system.name = "default") {
   return()
 }
 
+#Function to check if a system is loaded or not
+#Returns true if the system specified by system.name is present, otherwise returns false.
 ud.have.unit.system <-
 function(system.name) {
   rv <- .C('R_ut_has_system',
@@ -114,6 +116,8 @@ function(system.name) {
   return(rv$exists)
 }
 
+#Function to delete the system given by the user
+#Returns true is system is successfully deleted, otherwise returns an error.
 ud.free.system <- 
 function(system.name){
   rv <- .C('R_ut_free_system',
@@ -122,6 +126,8 @@ function(system.name){
   return(rv$deleted)
 }
 
+#Function to add a system, if file.name is blank, the default xml is used, 
+#if system.name is null the the name of the system is set to "default" 
 ud.add.system <- 
   function(file.name, system.name){
     rv <- .C('R_ut_init', 
@@ -130,7 +136,9 @@ ud.add.system <-
              as.integer(1))
   }
 
-
+#Function to list the different systems
+#Returns a character vector containing the system names
+#If no systems have been loaded it returns NULL
 ud.list.systems <-
   function(){
     rv <- .C('R_ut_system_count',
@@ -145,3 +153,55 @@ ud.list.systems <-
     }
 
   }
+
+#Function to set the conversion rule
+#The function.name is set to scale by default, other functions allowed are offset,log and invert.
+#Returns true if conversion setting is successful otherwise returns an error
+ud.set.conversion <- 
+  function(unit1.text, unit2.text, system.name = "default", function.name = "scale"){
+    units <- extract.unit.parts(c(unit1.text, unit2.text))
+    rv <- .C('R_ut_set_conversion', 
+             as.character(units$text[1]),
+             as.character(units$text[2]),
+             as.double(units$value[1]),
+             as.double(units$value[2]),
+             as.character(system.name),
+             as.character(function.name),
+             set = logical(1)
+    )
+    return(rv$set) 
+  }
+
+#Function to remove a unit from a loaded system
+#Returns true if the unit is successfully removed otherwise returns an error
+ud.remove.unit <- 
+  function(unit.name, system.name = "default"){
+    rv <- .C("R_ut_remove_unit",
+             as.character(unit.name),
+             removed = logical(1),
+             as.character(system.name))
+    return(rv$removed)
+  }
+
+#Function to extract the text and vqalue part from the unit text
+#This function is called from ud.set.conversion
+extract.unit.parts <- function(unitdef, assumed.value = 1) {
+  if (is.factor(unitdef)) {
+    unitdef <- as.character(unitdef)
+  }
+  if (!is.character(unitdef)) {
+    stop("unitdef must be a character scalar or vector")
+  }
+  pattern.unit <- "^[[:blank:]]*([[:digit:]]*\\.?[[:digit:]]+)?[[:blank:]]*([[:alnum:]_]+)[[:blank:]]*$"
+  mask.unit <- grepl(pattern.unit, unitdef, perl=TRUE)
+  if (any(!mask.unit)) {
+    stop("Invalid unit: ", paste0('"', unitdef[!mask.unit], '"', collapse=", "), ". ",
+         "Units must follow either the pattern (nonnegative number, optional spaces, alphanumeric or underscore string) or (alphanumeric or underscore string).")
+  }
+  unit.value <- as.numeric(gsub(pattern.unit, "\\1", unitdef))
+  unit.value[is.na(unit.value)] <- assumed.value
+  unit.text <- gsub(pattern.unit, "\\2", unitdef)
+  list(value=unit.value,
+       text=unit.text)
+}
+
