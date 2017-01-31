@@ -248,7 +248,7 @@ function(unit.string, system.name="default") {
 #' ud.is.parseable("miles")         # TRUE
 #' ud.is.parseable("Not parseable") # FALSE
 #' @export
-#' @useDynLib R_ut_is_parseable
+#' @useDynLib udunits2 R_ut_is_parseable
 ud.is.parseable <-
 function(unit.string, system.name = "default") {
   rv <- .C('R_ut_is_parseable',
