@@ -593,3 +593,158 @@ void R_ut_system_cleanup()
     return;
 
 }
+
+/*Function to remove a unit from the system*/
+void R_ut_remove_unit(char * const *unit_name, int *removed, char * const * sys_name)
+{
+    Sys_List *current_sys_node = NULL;
+    ut_unit *del_unit = NULL;
+    ut_status stat;
+	  
+    if(sys_name != NULL )
+    {
+        //Check if the system name is defined or not
+        R_ut_get_system(*sys_name, &current_sys_node);
+    }
+
+    if(current_sys_node == NULL)
+    {
+	*removed = 0;
+        return;
+    }
+
+    //Check if the unit is defined in the system
+    del_unit = ut_get_unit_by_name(current_sys_node->sys, *unit_name);
+
+    if(del_unit == NULL)//If the unit is not defined print the error
+    {
+         error("Unit '%s' not defined in the system.", *unit_name);
+	 *removed = 0;
+	return;
+     }
+
+     //remove the mapping of the unit
+     ut_unmap_name_to_unit(current_sys_node->sys, *unit_name, current_sys_node->enc);
+     stat = ut_get_status();
+
+     if(stat != UT_SUCCESS)//If unmapping is unsuccessful
+     {
+          ut_handle_error_message("Warning in R_ut_remove_unit: %s\n", ut_status_strings[stat]);
+	  *removed = 0;
+	   return;
+      }
+	 
+      //Remove the memory allocated for the system
+      ut_free(del_unit);
+      *removed = 1;
+
+       return;
+}
+
+
+
+/*Function to get and set the appropriate conversion function specified by the user*/
+void get_unit(const char *func_type, double quant1, double quant2, const ut_unit* u1, ut_unit** u2)
+{
+    //Get the length of function
+    size_t length = strlen(func_type);
+
+    if (strncmp(func_type, "scale", length) == 0)
+    {
+        *u2 = ut_scale((quant1/quant2), u1);
+    }
+    else if(strncmp(func_type, "offset", length) == 0)
+    {
+        *u2 = ut_offset(u1, (quant1-quant2));
+    }
+    else if(strncmp(func_type, "log", length) == 0)
+    {
+        *u2 = ut_log((quant1/quant2), u1);
+    }
+    else if(strncmp(func_type, "invert", length) == 0)
+    {
+       *u2 = ut_invert(u1);
+    }
+    else
+    {
+        error("Enter valid function type. Valid function types are ('scale'|'offset'|'invert'|'log')");
+    }
+    return;
+
+}
+
+
+
+/*Function to add a new units and set conversion to a loaded system */
+void R_ut_set_conversion(char * const *u1_name, char * const *u2_name, double *u1_quant,
+                         double *u2_quant, char * const * sys_name, char * const * func_type, int *set)
+{
+
+    Sys_List *current_sys_node = NULL;
+    ut_unit *u1_unit, *u2_unit;
+    u1_unit = u2_unit = NULL;
+
+    if(sys_name != NULL )
+    {
+        //Check if the system name is defined or not
+        R_ut_get_system(*sys_name, &current_sys_node);
+    }
+
+    if(current_sys_node == NULL)
+    {
+	*set = 0;
+        return;
+    }
+
+    if(func_type != NULL)
+    {
+        size_t length = strlen(*func_type);
+
+        if(!(strncmp(*func_type, "scale", length) == 0 || strncmp(*func_type, "offset", length) == 0 ||
+        strncmp(*func_type, "log", length) == 0 ||  strncmp(*func_type, "invert", length) == 0))
+        {
+            error("Enter valid function type. Valid function types are ('scale'|'offset'|'invert'|'log')");
+            return;
+        }
+    }
+
+    //Trim any leading or trailing whitespaces
+    ut_trim(*u1_name, current_sys_node->enc);
+    ut_trim(*u2_name, current_sys_node->enc);
+
+    //Check if the unit is already defined in the system
+    u1_unit = ut_get_unit_by_name(current_sys_node->sys, *u1_name);
+    u2_unit = ut_get_unit_by_name(current_sys_node->sys, *u2_name);
+
+    if(u1_unit == NULL && u2_unit == NULL)//if both the units are not defined.
+    {
+	u1_unit = ut_new_base_unit(current_sys_node->sys);
+	ut_map_name_to_unit(*u1_name, current_sys_node->enc, u1_unit);
+	ut_map_unit_to_name(u1_unit, *u1_name, current_sys_node->enc);
+	get_unit(*func_type, *u1_quant, *u2_quant, u1_unit, &(u2_unit));
+        ut_map_name_to_unit(*u2_name, current_sys_node->enc, u2_unit);
+        ut_map_unit_to_name(u2_unit, *u2_name, current_sys_node->enc);
+     }
+     else if(u1_unit == NULL)//if the u1_unit is defined
+     {
+	get_unit(*func_type, *u2_quant, *u1_quant, u2_unit, &(u1_unit));
+        ut_map_name_to_unit(*u1_name, current_sys_node->enc, u1_unit);
+	ut_map_unit_to_name(u1_unit, *u1_name, current_sys_node->enc);
+     }
+     else if(u2_unit == NULL)//if the u2_unit is defined
+     {
+        get_unit(*func_type, *u1_quant, *u2_quant, u1_unit, &(u2_unit));
+        ut_map_name_to_unit(*u2_name, current_sys_node->enc, u2_unit);
+        ut_map_unit_to_name(u2_unit, *u2_name, current_sys_node->enc);
+     }
+     else//if both the units are defined
+     {
+	*set = 0;
+	error("Both the units are already defined. However, you can remove the unit from the system using ‘ud.remove.unit’ function and reset the conversion.");
+      }
+	
+    *set = 1;
+    return;
+
+}
+
