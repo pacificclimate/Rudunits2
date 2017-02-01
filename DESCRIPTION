@@ -8,8 +8,7 @@ Authors@R: c(
     person("Swechhya", "Bista", email="Swechhya.Bista@cytel.com", role="aut"),
     person("Bill", "Denney", email="wdenney@humanpredictions.com", role="aut"))
 Description: Provides simple bindings to Unidata's udunits library.
-URL: https://github.com/pacificclimate/Rudunits2 https://www.unidata.ucar.edu/
-    software/udunits/
+URL: https://github.com/pacificclimate/Rudunits2 https://www.unidata.ucar.edu/software/udunits/
 SystemRequirements: udunits-2
 License: GPL-2
 LazyLoad: yes
