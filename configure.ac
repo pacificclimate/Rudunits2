@@ -14,7 +14,7 @@ if test [ -n "$udunits2_include_path" ] ; then
    UD_CPPFLAGS="-I${udunits2_include_path}"
 else
    if test [ -n "${UDUNITS2_INCLUDE}" ] ; then
-      UD_CPPFLAGS="-I{UDUNITS2_INCLUDE}"
+      UD_CPPFLAGS="-I${UDUNITS2_INCLUDE}"
    fi
 fi
 
