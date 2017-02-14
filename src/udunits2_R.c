@@ -740,7 +740,7 @@ void R_ut_set_conversion(char * const *u1_name, char * const *u2_name, double *u
      else//if both the units are defined
      {
 	*set = 0;
-	error("Both the units are already defined. However, you can remove the unit from the system using ‘ud.remove.unit’ function and reset the conversion.");
+	error("Both the units are already defined. However, you can remove the unit from the system using 'ud.remove.unit' function and reset the conversion.");
       }
 	
     *set = 1;
