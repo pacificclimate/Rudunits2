@@ -45,8 +45,8 @@ AC_CHECK_LIB(udunits2, ut_read_xml, [],
 if test "${UD_ERROR}" != ""  ; then
     echo "-----Error: ${UD_ERROR}-----"
     echo "     If the udunits2 library is installed in a non-standard location,"
-    echo "     use --configure-args='--with-udunits2-lib=/usr/local/lib' for example,"
-    echo "     or --configure-args='--with-udunits2-include=/usr/include/udunits2'"
+    echo "     use --configure.args='--with-udunits2-lib=/usr/local/lib' for example,"
+    echo "     or --configure.args='--with-udunits2-include=/usr/include/udunits2'"
     echo "     replacing paths with appropriate values for your installation."
     echo "     You can alternatively use the UDUNITS2_INCLUDE and UDUNITS2_LIBS"
     echo "     environment variables."
