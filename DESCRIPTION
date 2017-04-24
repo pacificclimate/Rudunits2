@@ -1,12 +1,12 @@
 Package: udunits2
 Type: Package
 Title: Udunits-2 Bindings for R
-Version: 0.13
-Date: 2016-11-16
+Version: 0.14
 Author: James Hiebert <hiebert@uvic.ca>
 Maintainer: James Hiebert <hiebert@uvic.ca>
 Description: Provides simple bindings to Unidata's udunits library.
 URL: https://github.com/pacificclimate/Rudunits2 https://www.unidata.ucar.edu/software/udunits/
+BugReports: https://github.com/pacificclimate/Rudunits2/issues/
 SystemRequirements: udunits-2
 License: GPL-2
 LazyLoad: yes
