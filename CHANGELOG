@@ -1,3 +1,6 @@
+0.14: Enable multiple unit systems and adding and removing conversions
+  - Changed documentation to roxygen2 style
+
 0.13: Replaces packageStartupMessage with a warning (when unable to load XML files at load time)
 
 0.12: Addresses further install issues for Windows

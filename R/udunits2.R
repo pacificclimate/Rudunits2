@@ -1,0 +1,53 @@
+#' @title udunits-2 bindings for R
+#' @description This package provides simple bindings to version 2 of Unidata's udunits library
+#' @details
+#' 
+#' \tabular{ll}{
+#' Package: \tab udunits2\cr
+#' Type: \tab Package\cr
+#' Version: \tab 0.6\cr
+#' Date: \tab 2011-02-11\cr
+#' License: \tab GPL-2\cr
+#' LazyLoad: \tab yes\cr
+#' }
+#' 
+#' This package provides simple bindings to the version 2 API of 
+#' Unidata's udunits library.  While the entire API is not supported, we
+#' have chosen to boil it down to a few simple functions to be able to 
+#' exploit the most useful functionality that the library provides. This
+#' package provides the following functions to work within a unit
+#' system:
+#' 
+#' \itemize{
+#'   \item \code{\link{ud.is.parseable}}
+#'   \item \code{\link{ud.get.name}}
+#'   \item \code{\link{ud.get.symbol}}
+#'   \item \code{\link{ud.are.convertible}}
+#'   \item \code{\link{ud.convert}}
+#' }
+#' 
+#' Functions for creating and removing units within a system:
+#' 
+#' \itemize{
+#'   \item \code{\link{ud.remove.unit}}
+#'   \item \code{\link{ud.set.conversion}}
+#' }
+#' 
+#' Functions for creating and removing unit systems:
+#' 
+#' \itemize{
+#'   \item \code{\link{ud.add.system}}
+#'   \item \code{\link{ud.free.system}}
+#'   \item \code{\link{ud.have.unit.system}}
+#'   \item \code{\link{ud.list.systems}}
+#'   \item \code{\link{ud.set.encoding}}
+#' }
+#' 
+#' Please see the respective function help pages for further details and usage.
+#' @author James Hiebert <hiebert@uvic.ca>
+#' @keywords unitdata units climate meteorology
+#' @name udunits2-package
+#' @aliases udunits2
+#' @references 
+#'   Unidata's udunits web page: \url{http://www.unidata.ucar.edu/software/udunits/}
+NULL
