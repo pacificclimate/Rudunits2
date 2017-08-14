@@ -81,8 +81,10 @@ function(unit.string) {
 
 ud.is.parseable <-
 function(unit.string) {
+  unit.string <- as.character(unit.string)
+  if (length(unit.string)==0) return(FALSE)
   rv <- .C('R_ut_is_parseable',
-           as.character(unit.string),
+           unit.string,
            parseable=logical(1))
   return(rv$parseable)
 }
