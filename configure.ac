@@ -11,11 +11,15 @@ AC_ARG_WITH([udunits2-include],
 		[location of the udunits2 header files]),
 		[udunits2_include_path=$withval])
 if test [ -n "$udunits2_include_path" ] ; then
-   UD_CPPFLAGS="-I${udunits2_include_path}"
+    UD_CPPFLAGS="-I${udunits2_include_path}"
 else
-   if test [ -n "${UDUNITS2_INCLUDE}" ] ; then
-      UD_CPPFLAGS="-I${UDUNITS2_INCLUDE}"
-   fi
+    if test [ -n "${UDUNITS2_INCLUDE}" ] ; then
+        UD_CPPFLAGS="-I${UDUNITS2_INCLUDE}"
+    else
+        if test [ -d "/usr/include/udunits2"] ; then
+            UD_CPPFLAGS="-I/usr/include/udunits2"
+        fi
+    fi
 fi
 
 AC_ARG_WITH([udunits2-lib],
@@ -23,16 +27,16 @@ AC_ARG_WITH([udunits2-lib],
 		[location of the udunits2 libraries]),
 		[udunits2_lib_path=$withval])
 if test [ -n "$udunits2_lib_path" ] ; then
-   LIBS="-L${udunits2_lib_path} ${LIBS}"
+    LIBS="-L${udunits2_lib_path} ${LIBS}"
 else
-   if test [ -n "${UDUNITS2_LIBS}" ] ; then
-      LIBS="-L${UDUNITS2_LIBS} ${LIBS}"
-   fi
+    if test [ -n "${UDUNITS2_LIBS}" ] ; then
+        LIBS="-L${UDUNITS2_LIBS} ${LIBS}"
+    fi
 fi
 
 AC_CHECK_LIB(expat,XML_ParserCreate,[],[],${LIBS})
 if test "${ac_cv_lib_expat_XML_ParserCreate}" == yes; then
-   LIBS="${LIBS} -lexpat "
+    LIBS="${LIBS} -lexpat "
 fi
 
 CPPFLAGS="${UD_CPPFLAGS} ${CPPFLAGS}"
