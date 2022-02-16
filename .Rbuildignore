@@ -7,3 +7,4 @@ autom4te.cache/
 Dockerfile
 .travis.yml
 ^windows
+tar.gz$
