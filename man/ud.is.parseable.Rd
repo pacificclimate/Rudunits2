@@ -22,9 +22,9 @@ ud.is.parseable(unit.string)
 }
 \references{
   Unidata's udunits reference:
-  \url{http://www.unidata.ucar.edu/software/udunits/}
+  \url{https://www.unidata.ucar.edu/software/udunits/}
   API guide for ut_parse:
-  \url{http://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#index-ut_005fparse-43}
+  \url{https://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#index-ut_005fparse-43}
 }
 \author{
   James Hiebert \email{hiebert@uvic.ca}

@@ -1,3 +1,8 @@
+0.13.2: CRAN team corrections
+	- to configure.ac, including setting LDFLAGS and
+	  checking the Fedora/Centos/RHEL layout of headers.
+	- added registration of symbols.
+
 0.13: Replaces packageStartupMessage with a warning (when unable to load XML files at load time)
 
 0.12: Addresses further install issues for Windows

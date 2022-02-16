@@ -27,8 +27,8 @@ ud.are.convertible(u1, u2)
 }
 \references{
   See the udunits function ut_are_convertible:
-  \url{http://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#ut_005fare_005fconvertible_0028_0029}
-  and the main uninits webpage: \url{http://www.unidata.ucar.edu/software/udunits/}
+  \url{https://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#ut_005fare_005fconvertible_0028_0029}
+  and the main uninits webpage: \url{https://www.unidata.ucar.edu/software/udunits/}
 }
 \author{
   James Hiebert \email{hiebert@uvic.ca}
