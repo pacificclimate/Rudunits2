@@ -1,4 +1,4 @@
-AC_INIT(Rudunits2, 0.8, hiebert@uvic.ca)
+AC_INIT([Rudunits2],[0.8],[hiebert@uvic.ca])
 
 CC=`"${R_HOME}/bin/R" CMD config CC`
 CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`
@@ -64,4 +64,5 @@ LIBS="${LIBS} -ludunits2"
 AC_SUBST([LIBS])
 AC_SUBST([UD_CPPFLAGS])
 
-AC_OUTPUT(src/Makevars)
+AC_CONFIG_FILES([src/Makevars])
+AC_OUTPUT
