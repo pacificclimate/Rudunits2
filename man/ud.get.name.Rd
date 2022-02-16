@@ -26,10 +26,10 @@ ud.get.name(unit.string)
 }
 \references{
   Unidata's udunits reference:
-  \url{http://www.unidata.ucar.edu/software/udunits/}
+  \url{https://www.unidata.ucar.edu/software/udunits/}
   API guide for ut_get_name:
-  \url{http://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#index-ut_005fget_005fname-66}
-  API guide for ut_get_symbol: \url{http://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#index-ut_005fget_005fsymbol-67}
+  \url{https://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#index-ut_005fget_005fname-66}
+  API guide for ut_get_symbol: \url{https://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#index-ut_005fget_005fsymbol-67}
 }
 \author{James Hiebert \email{hiebert@uvic.ca}}
 
@@ -39,7 +39,7 @@ ud.get.name(unit.string)
   defined in the units data base, which is--as of API version 2--an XML
   database which ships with the library.  See Unidata's website for more
   information about the XML database:
-  \url{http://www.unidata.ucar.edu/software/udunits/udunits-2-units.html}.
+  \url{https://www.unidata.ucar.edu/software/udunits/udunits-2-units.html}.
   All in all, don't put too much stock in them, for they are for
   convenience only. If your application \emph{requires} certain names
   and symbols to be present, the XML database is local and editable.

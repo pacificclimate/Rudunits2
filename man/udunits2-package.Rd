@@ -34,7 +34,7 @@ Maintainer:   James Hiebert <hiebert@uvic.ca>
 }
 \references{
   Unidata's udunits web page:
-  \url{http://www.unidata.ucar.edu/software/udunits/}
+  \url{https://www.unidata.ucar.edu/software/udunits/}
 }
 \keyword{unitdata}
 \keyword{units}

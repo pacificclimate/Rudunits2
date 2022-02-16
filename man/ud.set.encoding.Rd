@@ -25,7 +25,7 @@ ud.set.encoding(enc.string)
 }
 \references{
   Unidata's udunits reference:
-  \url{http://www.unidata.ucar.edu/software/udunits/}
+  \url{https://www.unidata.ucar.edu/software/udunits/}
   API guide chapter on data types:
   \url{https://www.unidata.ucar.edu/software/udunits/udunits-2.1.24/udunits2lib.html#Types}
 }
